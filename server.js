@@ -22,8 +22,8 @@ mongoose.connection.on("error", (err) =>
 );
 
 // Routes
-app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/forums", require("./routes/forumRoutes"));
+app.use("/api/users", require("./userRoutes"));
+app.use("/api/forums", require("./forumRoutes"));
 
 // Server
 app.listen(PORT, () =>
