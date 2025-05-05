@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,7 +22,15 @@ mongoose.connection.on("error", (err) =>
   console.log("Failed to connect to MongoDB", err)
 );
 
-// Routes
+// Serve static files (for serving index.html and other assets)
+app.use(express.static(path.join(__dirname)));
+
+// Serve the main HTML file
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// API Routes
 app.use("/api/users", require("./userRoutes"));
 app.use("/api/forums", require("./forumRoutes"));
 
