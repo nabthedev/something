@@ -1,7 +1,7 @@
 const express = require("express");
-const Forum = require("../models/Forum");
-const Thread = require("../models/Thread");
-const Reply = require("../models/Reply");
+const Forum = require("./Forum");
+const Thread = require("./Thread");
+const Reply = require("./Reply");
 
 const router = express.Router();
 
