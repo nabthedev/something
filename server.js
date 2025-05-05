@@ -22,19 +22,19 @@ mongoose.connection.on("error", (err) =>
   console.log("Failed to connect to MongoDB", err)
 );
 
-// Serve static files (for serving index.html and other assets)
+// Serve Static Files
 app.use(express.static(path.join(__dirname)));
+
+// API Routes
+app.use("/api/users", require("./userRoutes"));
+app.use("/api/forums", require("./forumRoutes"));
 
 // Serve the main HTML file
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// API Routes
-app.use("/api/users", require("./userRoutes"));
-app.use("/api/forums", require("./forumRoutes"));
-
-// Server
+// Start Server
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
 );
