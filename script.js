@@ -1,50 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Handle login
-  const loginForm = document.querySelector("#loginForm");
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  const registerForm = document.querySelector("#registerForm");
+
+  if (registerForm) {
+    registerForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const username = document.querySelector("#username").value;
       const email = document.querySelector("#email").value;
       const password = document.querySelector("#password").value;
 
       try {
-        const response = await fetch("/api/users/login", {
+        const response = await fetch("http://localhost:5000/api/users/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ username, email, password }),
         });
 
         const data = await response.json();
         if (response.ok) {
-          alert("Login successful!");
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
-          window.location.href = "forums.html";
+          alert("Registration successful! Please log in.");
+          window.location.href = "login.html";
         } else {
-          alert(data.error);
+          alert(data.error || "Registration failed.");
         }
-      } catch (err) {
-        alert("Error logging in!");
+      } catch (error) {
+        alert("An error occurred while registering.");
       }
     });
-  }
-
-  // Fetch forums
-  const forumsContainer = document.querySelector("#forums");
-  if (forumsContainer) {
-    fetch("/api/forums")
-      .then((res) => res.json())
-      .then((forums) => {
-        forumsContainer.innerHTML = forums
-          .map(
-            (forum) =>
-              `<div>
-                <h3>${forum.name}</h3>
-                <p>${forum.description}</p>
-                <a href="threads.html?forumId=${forum._id}">View Threads</a>
-              </div>`
-          )
-          .join("");
-      });
   }
 });
